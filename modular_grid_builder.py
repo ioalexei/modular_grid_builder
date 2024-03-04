@@ -33,6 +33,8 @@ from .resources import *
 from .modular_grid_builder_dialog import ModularGridBuilderDialog
 import os.path
 
+# Import modules for range_alternate_steps
+from itertools import cycle
 
 class ModularGridBuilder:
     """QGIS Plugin Implementation."""
@@ -217,11 +219,10 @@ class ModularGridBuilder:
 
             selectedPageSize = self.dlg.paperSizeSelector.currentIndex()
 
-            page_width = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].width()
-            page_height = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].height()
+            page_width = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].size.width()
+            page_height = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].size.height()
 
-            
-            
+
             num_columns = self.dlg.numColumnsInput.value()
             num_rows = self.dlg.numColumnsInput.value()
 
