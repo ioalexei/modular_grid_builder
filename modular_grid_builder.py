@@ -33,8 +33,15 @@ from .resources import *
 from .modular_grid_builder_dialog import ModularGridBuilderDialog
 import os.path
 
-# Import modules for range_alternate_steps
 from itertools import cycle
+# https://stackoverflow.com/questions/39241505/python-simple-way-to-increment-by-alternating-values
+def range_alternate_steps(start, stop, steps=(1,)):
+    steps = cycle(steps)
+    val = start
+    while val < stop:
+        yield val
+        val += next(steps)
+
 
 class ModularGridBuilder:
     """QGIS Plugin Implementation."""
@@ -183,13 +190,6 @@ class ModularGridBuilder:
                 action)
             self.iface.removeToolBarIcon(action)
 
-    # https://stackoverflow.com/questions/39241505/python-simple-way-to-increment-by-alternating-values
-    def range_alternate_steps(start, stop, steps=(1,)):
-        steps = cycle(steps)
-        val = start
-        while val < stop:
-            yield val
-            val += next(steps)
 
 
     def run(self):
