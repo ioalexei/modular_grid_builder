@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/modular_grid_builder" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
