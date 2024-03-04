@@ -215,8 +215,13 @@ class ModularGridBuilder:
         # See if OK was pressed
         if result:
 
-            pageSizeForGrid = self.dlg.paperSizeSelector.currentIndex()
+            selectedPageSize = self.dlg.paperSizeSelector.currentIndex()
 
+            page_width = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].width()
+            page_height = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].height()
+
+            
+            
             num_columns = self.dlg.numColumnsInput.value()
             num_rows = self.dlg.numColumnsInput.value()
 
