@@ -24,6 +24,8 @@
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
+from qgis.core import QgsProject, QgsPrintLayout, QgsLayoutGuideCollection, QgsLayout, QgsLayoutGuide, QgsLayoutMeasurement, QgsPageSizeRegistry
+import qgis.core 
 
 # Initialize Qt resources from file resources.py
 from .resources import *
@@ -179,6 +181,14 @@ class ModularGridBuilder:
                 action)
             self.iface.removeToolBarIcon(action)
 
+    # https://stackoverflow.com/questions/39241505/python-simple-way-to-increment-by-alternating-values
+    def range_alternate_steps(start, stop, steps=(1,)):
+        steps = cycle(steps)
+        val = start
+        while val < stop:
+            yield val
+            val += next(steps)
+
 
     def run(self):
         """Run method that performs all the real work"""
@@ -189,12 +199,46 @@ class ModularGridBuilder:
             self.first_start = False
             self.dlg = ModularGridBuilderDialog()
 
+        paperSizes = qgis.core.QgsPageSizeRegistry()
+        paperSizeList = []
+        for paperSize in paperSizes.entries():
+            paperSizeList.append(f"{paperSize.name} - {paperSize.size.height()} × {paperSize.size.width()}{paperSize.size.units()}")
+
+        self.dlg.paperSizeSelector.addItems(paperSizeList) 
+
         # show the dialog
         self.dlg.show()
+
         # Run the dialog event loop
         result = self.dlg.exec_()
+
         # See if OK was pressed
         if result:
-            # Do something useful here - delete the line containing pass and
-            # substitute with your code.
-            pass
+
+            pageSizeForGrid = self.dlg.paperSizeSelector.currentIndex()
+
+            num_columns = self.dlg.numColumnsInput.value()
+            num_rows = self.dlg.numColumnsInput.value()
+
+            gutter = self.dlg.gutterInput.value()
+
+            margin_left = self.dlg.marginLeftInput.value()
+            margin_right = self.dlg.marginRightInput.value()
+            margin_top = self.dlg.marginTopInput.value()
+            margin_bottom = self.dlg.marginBottomInput.value()
+
+            column_width = (page_width - margin_left - margin_right - (gutter * (num_columns - 1))) / num_columns
+            row_height = (page_height - margin_top - margin_bottom - (gutter * (num_rows - 1))) / num_rows
+
+            vertical_guides = list(range_alternate_steps(margin_left, (page_width - margin_right), (column_width, gutter)))
+            vertical_guides.append(vertical_guides[-1]+column_width)
+
+            print(vertical_guides)
+
+            horizontal_guides = list(range_alternate_steps(margin_top, (page_height - margin_bottom), (row_height, gutter)))
+            horizontal_guides.append(horizontal_guides[-1]+row_height)
+
+            print(horizontal_guides)
+
+
+            
