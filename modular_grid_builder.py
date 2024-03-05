@@ -219,7 +219,13 @@ class ModularGridBuilder:
         if result:
 
             selectedPageSize = self.dlg.paperSizeSelector.currentIndex()
-            selectedPageOrientation = 'landscape' # self.dlg.paperOrientationLandscape.
+            
+            if self.dlg.orientationPortraitRadio.isChecked(): 
+                selectedPageOrientation = 'portrait'
+            elif self.dlg.orientationLandscapeRadio.isChecked():
+                selectedPageOrientation = 'landscape'
+            else: 
+                pass
 
             page_width = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].size.width()
             page_height = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].size.height()
