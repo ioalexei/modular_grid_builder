@@ -260,23 +260,40 @@ class ModularGridBuilder:
                     manager.removeLayout(layout)
             
             layout = QgsPrintLayout(project)
-            layout.initializeDefaults()
+            layout.initializeDefaults() # Default is A4 landscape
             layout.setName(layoutName)
             manager.addLayout(layout)
 
-            # Set up Layout Guide Collection to hold the guides 
-            guidecollection = QgsLayoutGuideCollection(layout=layout, pageCollection=layout.pageCollection())
-            #guidecollection.setLayout(layout=layout)
-            guidecollection.setVisible(True)
-            guidecollection.update()
+            layoutForGuides = manager.layoutByName(layoutName)
+            pageCollection = layoutForGuides.pageCollection()
+            pageForGuides = pageCollection.pages()[0]
+            guideUnits = qgis.core.Qgis.LayoutUnit.Millimeters
+
+            # guidecollection = QgsLayoutGuideCollection(
+            #     layout=layoutForGuides, 
+            #     pageCollection=pageCollection)
+           
+            guidecollection = pageCollection.guides()
 
             for i in vertical_guides: 
-                guide_vertical = QgsLayoutGuide(orientation=2, position=QgsLayoutMeasurement(length=i, units=qgis.core.Qgis.LayoutUnit.Millimeters), page=layout.pageCollection().pages()[0]) # returns only or first page
+                guide_vertical = QgsLayoutGuide(
+                orientation=2, position=QgsLayoutMeasurement(length=i, 
+                    units=guideUnits), 
+                    page=pageForGuides) 
+                # returns only or first page
                 guidecollection.addGuide(guide_vertical)
 
+
             for i in horizontal_guides: 
-                guide_horizontal = QgsLayoutGuide(orientation=1, position=QgsLayoutMeasurement(length=i, units=qgis.core.Qgis.LayoutUnit.Millimeters), page=layout.pageCollection().pages()[0]) # returns only or first page
+                guide_horizontal = QgsLayoutGuide(
+                    orientation=1, position=QgsLayoutMeasurement(length=i, 
+                    units=guideUnits), 
+                    page=pageForGuides) 
+                # returns only or first page
                 guidecollection.addGuide(guide_horizontal)
+
+            guidecollection.setVisible(True)
+            guidecollection.update()
 
 
 
