@@ -33,8 +33,9 @@ from .resources import *
 from .modular_grid_builder_dialog import ModularGridBuilderDialog
 import os.path
 
-from itertools import cycle
+# Function to increment values by alternating steps (row/col size + gutter)
 # https://stackoverflow.com/questions/39241505/python-simple-way-to-increment-by-alternating-values
+from itertools import cycle
 def range_alternate_steps(start, stop, steps=(1,)):
     steps = cycle(steps)
     val = start
@@ -245,6 +246,42 @@ class ModularGridBuilder:
             horizontal_guides.append(horizontal_guides[-1]+row_height)
 
             print(horizontal_guides)
+
+            # identify current project
+            project = QgsProject.instance()
+
+            # initiate layout manager 
+            manager = project.layoutManager()
+
+            layout = QgsPrintLayout(project) ## https://qgis.org/pyqgis/master/core/QgsLayout.html#qgis.core.QgsLayout
+
+            layout.initializeDefaults()
+            layout.setName("Layout 1")
+            manager.addLayout(layout)
+
+            # Set up Layout Guide Collection to hold the guides 
+            guidecollection = QgsLayoutGuideCollection(layout=layout, pageCollection=layout.pageCollection())
+            #guidecollection.setLayout(layout=layout)
+            guidecollection.setVisible(True)
+            guidecollection.update()
+
+            # Create guides in loop
+            #https://doc.qt.io/qt-6/qt.html#Orientation-enum
+            #orientation=1 # Horizontal 
+            #orientation=2 # Vertical
+            # https://qgis.org/pyqgis/master/core/QgsLayoutMeasurement.html#qgis.core.QgsLayoutMeasurement
+            #position=QgsLayoutMeasurement(length=10, units=Qgis.LayoutUnit.Millimeters)
+
+            for i in vertical_guides: 
+                guide_vertical = QgsLayoutGuide(orientation=2, position=QgsLayoutMeasurement(length=i, units=qgis.core.LayoutUnit.Millimeters), page=layout.pageCollection().pages()[0]) # returns only or first page
+                guidecollection.addGuide(guide_vertical)
+
+            for i in horizontal_guides: 
+                guide_horizontal = QgsLayoutGuide(orientation=1, position=QgsLayoutMeasurement(length=i, units=qgis.core.LayoutUnit.Millimeters), page=layout.pageCollection().pages()[0]) # returns only or first page
+                guidecollection.addGuide(guide_horizontal)
+
+
+
 
 
             
