@@ -273,11 +273,11 @@ class ModularGridBuilder:
             #position=QgsLayoutMeasurement(length=10, units=Qgis.LayoutUnit.Millimeters)
 
             for i in vertical_guides: 
-                guide_vertical = QgsLayoutGuide(orientation=2, position=QgsLayoutMeasurement(length=i, units=qgis.core.LayoutUnit.Millimeters), page=layout.pageCollection().pages()[0]) # returns only or first page
+                guide_vertical = QgsLayoutGuide(orientation=2, position=QgsLayoutMeasurement(length=i, units=qgis.core.Qgis.LayoutUnit.Millimeters), page=layout.pageCollection().pages()[0]) # returns only or first page
                 guidecollection.addGuide(guide_vertical)
 
             for i in horizontal_guides: 
-                guide_horizontal = QgsLayoutGuide(orientation=1, position=QgsLayoutMeasurement(length=i, units=qgis.core.LayoutUnit.Millimeters), page=layout.pageCollection().pages()[0]) # returns only or first page
+                guide_horizontal = QgsLayoutGuide(orientation=1, position=QgsLayoutMeasurement(length=i, units=qgis.core.Qgis.LayoutUnit.Millimeters), page=layout.pageCollection().pages()[0]) # returns only or first page
                 guidecollection.addGuide(guide_horizontal)
 
 
