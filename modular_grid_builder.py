@@ -254,7 +254,7 @@ class ModularGridBuilder:
 
             # initiate layout manager 
             manager = project.layoutManager()
-            layoutName = 'Layout1'
+            layoutName = self.dlg.layoutNameInput.text()
             layouts_list = manager.printLayouts()
             # remove any duplicate layouts
             for layout in layouts_list:
