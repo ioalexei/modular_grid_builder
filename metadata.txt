@@ -1,6 +1,4 @@
-# This file contains metadata for your plugin.
-
-# This file should be included when you package your plugin.# Mandatory items:
+# Mandatory items:
 
 [general]
 name=Modular Layout Grid Guides
@@ -20,7 +18,7 @@ repository=https://github.com/ioalexei/modular_grid_builder
 
 hasProcessingProvider=no
 # Uncomment the following line and add your changelog:
-# changelog=
+changelog=https://github.com/ioalexei/modular_grid_builder/blob/main/changelog.md
 
 # Tags are comma separated with spaces allowed
 tags=python
