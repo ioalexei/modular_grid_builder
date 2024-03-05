@@ -47,10 +47,18 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QDoubleSpinBox" name="marginTopInput"/>
+     <widget class="QDoubleSpinBox" name="marginTopInput">
+      <property name="value">
+       <double>5.000000000000000</double>
+      </property>
+     </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QDoubleSpinBox" name="marginLeftInput"/>
+     <widget class="QDoubleSpinBox" name="marginLeftInput">
+      <property name="value">
+       <double>5.000000000000000</double>
+      </property>
+     </widget>
     </item>
     <item row="0" column="0">
      <widget class="QLabel" name="marginLeftLabel">
@@ -60,7 +68,11 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QDoubleSpinBox" name="marginRightInput"/>
+     <widget class="QDoubleSpinBox" name="marginRightInput">
+      <property name="value">
+       <double>5.000000000000000</double>
+      </property>
+     </widget>
     </item>
     <item row="2" column="0">
      <widget class="QLabel" name="marginTopLabel">
@@ -77,7 +89,11 @@
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QDoubleSpinBox" name="marginBottomInput"/>
+     <widget class="QDoubleSpinBox" name="marginBottomInput">
+      <property name="value">
+       <double>5.000000000000000</double>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -99,7 +115,11 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QSpinBox" name="numRowsInput"/>
+     <widget class="QSpinBox" name="numRowsInput">
+      <property name="value">
+       <number>4</number>
+      </property>
+     </widget>
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="numRowsLabel">
@@ -109,7 +129,11 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QSpinBox" name="numColumnsInput"/>
+     <widget class="QSpinBox" name="numColumnsInput">
+      <property name="value">
+       <number>4</number>
+      </property>
+     </widget>
     </item>
     <item row="2" column="0">
      <widget class="QLabel" name="gutterLabel">
@@ -119,7 +143,11 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QDoubleSpinBox" name="gutterInput"/>
+     <widget class="QDoubleSpinBox" name="gutterInput">
+      <property name="value">
+       <double>2.000000000000000</double>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
