@@ -219,6 +219,7 @@ class ModularGridBuilder:
         if result:
 
             selectedPageSize = self.dlg.paperSizeSelector.currentIndex()
+            selectedPageOrientation = 'landscape' # self.dlg.paperOrientationLandscape.
 
             page_width = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].size.width()
             page_height = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].size.height()
@@ -269,15 +270,17 @@ class ModularGridBuilder:
             pageForGuides = pageCollection.pages()[0]
             guideUnits = qgis.core.Qgis.LayoutUnit.Millimeters
 
-            # guidecollection = QgsLayoutGuideCollection(
-            #     layout=layoutForGuides, 
-            #     pageCollection=pageCollection)
+            if selectedPageOrientation == 'portrait': 
+                page_width = pageForGuides.pageSize().height()
+                page_height = pageForGuides.pageSize().width()
+                pageForGuides.setPageSize(QgsLayoutSize(width=page_width, height=page_height, 
+                    units=qgis.core.Qgis.LayoutUnit.Millimeters))
            
             guidecollection = pageCollection.guides()
 
             for i in vertical_guides: 
                 guide_vertical = QgsLayoutGuide(
-                orientation=2, position=QgsLayoutMeasurement(length=i, 
+                orientation=1, position=QgsLayoutMeasurement(length=i, 
                     units=guideUnits), 
                     page=pageForGuides) 
                 # returns only or first page
@@ -286,7 +289,7 @@ class ModularGridBuilder:
 
             for i in horizontal_guides: 
                 guide_horizontal = QgsLayoutGuide(
-                    orientation=1, position=QgsLayoutMeasurement(length=i, 
+                    orientation=2, position=QgsLayoutMeasurement(length=i, 
                     units=guideUnits), 
                     page=pageForGuides) 
                 # returns only or first page
