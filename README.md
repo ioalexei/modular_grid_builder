@@ -15,10 +15,10 @@ it's easier to create a balanced and aligned layout.
 ## Usage 
 The plugin dialog allows you to set the parameters to create a grid from. 
 
-![Screenshot of plugin dialog]('./docs/screenshot_dialog_v0.1png')
+![Screenshot of plugin dialog](https://github.com/ioalexei/modular_grid_builder/blob/main/docs/screenshot_dialog_v0.1.png)
 
 | Name | Description |
-----------------------
+|------|-------------|
 | Left margin | Amount of space to leave on left side of page before starting grid (in mm) | 
 | Right margin | Amount of space to leave on right side of page before starting grid (in mm)|
 | Top margin | Amount of space to leave from top of page before starting grid (in mm)| 
@@ -33,7 +33,7 @@ The plugin dialog allows you to set the parameters to create a grid from.
 ### Sample output 
 This screenshot shows a sample output, using a landscape A4 page with 8 columns and 4 rows
 
-![Screenshot of layout with modular grid]('./docs/screenshot_dialog_v0.1png')
+![Screenshot of layout with modular grid](https://github.com/ioalexei/modular_grid_builder/blob/main/docs/screenshot_layout_v0.1.png)
 
 ## Contributing
 Submit bugs and feature requests from the issues tab. Pull requests welcome. 
