@@ -252,11 +252,16 @@ class ModularGridBuilder:
 
             # initiate layout manager 
             manager = project.layoutManager()
-
-            layout = QgsPrintLayout(project) ## https://qgis.org/pyqgis/master/core/QgsLayout.html#qgis.core.QgsLayout
-
+            layoutName = 'Layout1'
+            layouts_list = manager.printLayouts()
+            # remove any duplicate layouts
+            for layout in layouts_list:
+                if layout.name() == layoutName:
+                    manager.removeLayout(layout)
+            
+            layout = QgsPrintLayout(project)
             layout.initializeDefaults()
-            layout.setName("Layout 1")
+            layout.setName(layoutName)
             manager.addLayout(layout)
 
             # Set up Layout Guide Collection to hold the guides 
@@ -264,13 +269,6 @@ class ModularGridBuilder:
             #guidecollection.setLayout(layout=layout)
             guidecollection.setVisible(True)
             guidecollection.update()
-
-            # Create guides in loop
-            #https://doc.qt.io/qt-6/qt.html#Orientation-enum
-            #orientation=1 # Horizontal 
-            #orientation=2 # Vertical
-            # https://qgis.org/pyqgis/master/core/QgsLayoutMeasurement.html#qgis.core.QgsLayoutMeasurement
-            #position=QgsLayoutMeasurement(length=10, units=Qgis.LayoutUnit.Millimeters)
 
             for i in vertical_guides: 
                 guide_vertical = QgsLayoutGuide(orientation=2, position=QgsLayoutMeasurement(length=i, units=qgis.core.Qgis.LayoutUnit.Millimeters), page=layout.pageCollection().pages()[0]) # returns only or first page
