@@ -223,6 +223,7 @@ class ModularGridBuilder:
 
             page_width = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].size.width()
             page_height = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].size.height()
+            page_units = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].size.units()
 
 
             num_columns = self.dlg.numColumnsInput.value()
@@ -270,11 +271,12 @@ class ModularGridBuilder:
             pageForGuides = pageCollection.pages()[0]
             guideUnits = qgis.core.Qgis.LayoutUnit.Millimeters
 
-            if selectedPageOrientation == 'portrait': 
-                page_width = pageForGuides.pageSize().height()
-                page_height = pageForGuides.pageSize().width()
-                pageForGuides.setPageSize(QgsLayoutSize(width=page_width, height=page_height, 
-                    units=qgis.core.Qgis.LayoutUnit.Millimeters))
+            if selectedPageOrientation == 'portrait':
+                pageForGuides.setPageSize(qgis.core.QgsLayoutSize(width=page_width, height=page_height, 
+                    units=page_units))
+            else: 
+                pageForGuides.setPageSize(qgis.core.QgsLayoutSize(width=page_height, height=page_width, 
+                    units=page_units))
            
             guidecollection = pageCollection.guides()
 
