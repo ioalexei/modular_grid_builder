@@ -31,7 +31,7 @@ The plugin dialog allows you to set the parameters to create a grid from.
 | Layout name | Give the layout a name (so you can identify it in the Layout Manager) | 
 
 ### Sample output 
-This screenshot shows a sample output, using a landscape A4 page with 8 columns and 4 rows
+This screenshot shows a sample output, using a landscape A4 page with 8 columns and 8 rows
 
 ![Screenshot of layout with modular grid](https://github.com/ioalexei/modular_grid_builder/blob/main/docs/screenshot_layout_v0.1.png)
 
