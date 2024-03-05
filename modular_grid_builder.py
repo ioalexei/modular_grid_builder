@@ -219,7 +219,7 @@ class ModularGridBuilder:
         if result:
 
             selectedPageSize = self.dlg.paperSizeSelector.currentIndex()
-            
+
             if self.dlg.orientationPortraitRadio.isChecked(): 
                 selectedPageOrientation = 'portrait'
             elif self.dlg.orientationLandscapeRadio.isChecked():
@@ -233,7 +233,7 @@ class ModularGridBuilder:
 
 
             num_columns = self.dlg.numColumnsInput.value()
-            num_rows = self.dlg.numColumnsInput.value()
+            num_rows = self.dlg.numRowsInput.value()
 
             gutter = self.dlg.gutterInput.value()
 
@@ -280,9 +280,11 @@ class ModularGridBuilder:
             if selectedPageOrientation == 'portrait':
                 pageForGuides.setPageSize(qgis.core.QgsLayoutSize(width=page_width, height=page_height, 
                     units=page_units))
-            else: 
+            elif selectedPageOrientation == 'landscape': 
                 pageForGuides.setPageSize(qgis.core.QgsLayoutSize(width=page_height, height=page_width, 
                     units=page_units))
+            else: 
+                pass
            
             guidecollection = pageCollection.guides()
 
