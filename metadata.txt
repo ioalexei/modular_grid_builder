@@ -21,7 +21,7 @@ hasProcessingProvider=no
 changelog=https://github.com/ioalexei/modular_grid_builder/blob/main/changelog.md
 
 # Tags are comma separated with spaces allowed
-tags=python
+tags=python, layout
 
 homepage=https://github.com/ioalexei/modular_grid_builder
 category=Plugins
