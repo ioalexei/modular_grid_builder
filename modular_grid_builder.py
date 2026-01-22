@@ -24,7 +24,7 @@
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
-from qgis.core import QgsProject, QgsPrintLayout, QgsLayoutGuideCollection, QgsLayout, QgsLayoutGuide, QgsLayoutMeasurement, QgsPageSizeRegistry
+from qgis.core import QgsProject, QgsPrintLayout, Qgis, QgsLayoutGuide, QgsLayoutMeasurement, QgsPageSizeRegistry, QgsLayoutSize
 import qgis.core 
 
 # Initialize Qt resources from file resources.py
@@ -202,7 +202,7 @@ class ModularGridBuilder:
             self.first_start = False
             self.dlg = ModularGridBuilderDialog()
 
-        paperSizes = qgis.core.QgsPageSizeRegistry()
+        paperSizes = QgsPageSizeRegistry()
         paperSizeList = []
         for paperSize in paperSizes.entries():
             paperSizeList.append(f"{paperSize.name} - {paperSize.size.height()} × {paperSize.size.width()}{paperSize.size.units()}")
@@ -220,7 +220,7 @@ class ModularGridBuilder:
 
             selectedPageSize = self.dlg.paperSizeSelector.currentIndex()
             # Copilot - initialise selection to prevent potential error if no buttons are selected
-            selectedPageOrientation = 'portrait'
+            selectedPageOrientation = 'landscape'
             
             if self.dlg.orientationPortraitRadio.isChecked(): 
                 selectedPageOrientation = 'portrait'
@@ -229,10 +229,9 @@ class ModularGridBuilder:
             else: 
                 pass
 
-            page_width = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].size.width()
-            page_height = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].size.height()
-            page_units = qgis.core.QgsPageSizeRegistry().entries()[selectedPageSize].size.units()
-
+            page_width = QgsPageSizeRegistry().entries()[selectedPageSize].size.width()
+            page_height = QgsPageSizeRegistry().entries()[selectedPageSize].size.height()
+            page_units = QgsPageSizeRegistry().entries()[selectedPageSize].size.units()
 
             num_columns = self.dlg.numColumnsInput.value()
             num_rows = self.dlg.numRowsInput.value()
@@ -249,7 +248,7 @@ class ModularGridBuilder:
                 self.iface.messageBar().pushMessage(
                     self.tr("Invalid grid"),
                     self.tr("Number of columns and rows must be at least 1."),
-                    level=qgis.core.Qgis.Critical)
+                    level=Qgis.Critical)
                 return
 
             available_width = page_width - margin_left - margin_right - (gutter * (num_columns - 1))
@@ -259,7 +258,7 @@ class ModularGridBuilder:
                 self.iface.messageBar().pushMessage(
                     self.tr("Invalid layout"),
                     self.tr("Margins and gutter leave no space for columns or rows."),
-                    level=qgis.core.Qgis.Critical)
+                    level=Qgis.Critical)
                 return
 
             column_width = available_width / num_columns
@@ -273,8 +272,8 @@ class ModularGridBuilder:
             else:
                 vertical_guides = [margin_left + column_width]
 
-            QgsMessageLog.logMessage("Vertical guides: "+str(vertical_guides),
-                    level=core.Qgis.Info)
+            qgis.core.QgsMessageLog.logMessage("Vertical guides: "+str(vertical_guides),
+                    "ModularGridBuilder", level=Qgis.Info)
 
             horizontal_guides = list(range_alternate_steps(margin_top, (page_height - margin_bottom), (row_height, gutter)))
             
@@ -283,8 +282,8 @@ class ModularGridBuilder:
             else:
                 horizontal_guides = [margin_top + row_height]
 
-            QgsMessageLog.logMessage("Horizontal guides: "+str(horizontal_guides),
-                    level=core.Qgis.Info)
+            qgis.core.QgsMessageLog.logMessage("Horizontal guides: "+str(horizontal_guides),
+                    "ModularGridBuilder", level=Qgis.Info)
 
             # identify current project
             project = QgsProject.instance()
@@ -306,13 +305,13 @@ class ModularGridBuilder:
             layoutForGuides = manager.layoutByName(layoutName)
             pageCollection = layoutForGuides.pageCollection()
             pageForGuides = pageCollection.pages()[0]
-            guideUnits = qgis.core.Qgis.LayoutUnit.Millimeters
+            guideUnits = Qgis.LayoutUnit.Millimeters
 
             if selectedPageOrientation == 'portrait':
-                pageForGuides.setPageSize(qgis.core.QgsLayoutSize(width=page_width, height=page_height, 
+                pageForGuides.setPageSize(QgsLayoutSize(width=page_width, height=page_height, 
                     units=page_units))
             elif selectedPageOrientation == 'landscape': 
-                pageForGuides.setPageSize(qgis.core.QgsLayoutSize(width=page_height, height=page_width, 
+                pageForGuides.setPageSize(QgsLayoutSize(width=page_height, height=page_width, 
                     units=page_units))
             else: 
                 pass
