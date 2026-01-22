@@ -24,7 +24,7 @@
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
-from qgis.core import QgsProject, QgsPrintLayout, Qgis, QgsLayoutGuide, QgsLayoutMeasurement, QgsPageSizeRegistry, QgsLayoutSize
+from qgis.core import QgsProject, QgsPrintLayout, Qgis, QgsLayoutItemPage, QgsLayoutGuide, QgsLayoutMeasurement, QgsPageSizeRegistry, QgsLayoutSize
 import qgis.core 
 
 # Initialize Qt resources from file resources.py
@@ -219,20 +219,22 @@ class ModularGridBuilder:
         if result:
 
             selectedPageSize = self.dlg.paperSizeSelector.currentIndex()
-            # Copilot - initialise selection to prevent potential error if no buttons are selected
-            selectedPageOrientation = 'landscape'
-            
+            selectedPageSizeName = QgsPageSizeRegistry().entries()[selectedPageSize].name
+
+            _page_width = QgsPageSizeRegistry().entries()[selectedPageSize].size.width()
+            _page_height = QgsPageSizeRegistry().entries()[selectedPageSize].size.height()
+
             if self.dlg.orientationPortraitRadio.isChecked(): 
                 selectedPageOrientation = 'portrait'
+                page_width = _page_height
+                page_height = _page_width
             elif self.dlg.orientationLandscapeRadio.isChecked():
                 selectedPageOrientation = 'landscape'
+                page_width = _page_width
+                page_height = _page_height
             else: 
                 pass
-
-            page_width = QgsPageSizeRegistry().entries()[selectedPageSize].size.width()
-            page_height = QgsPageSizeRegistry().entries()[selectedPageSize].size.height()
-            page_units = QgsPageSizeRegistry().entries()[selectedPageSize].size.units()
-
+                
             num_columns = self.dlg.numColumnsInput.value()
             num_rows = self.dlg.numRowsInput.value()
 
@@ -308,11 +310,9 @@ class ModularGridBuilder:
             guideUnits = Qgis.LayoutUnit.Millimeters
 
             if selectedPageOrientation == 'portrait':
-                pageForGuides.setPageSize(QgsLayoutSize(width=page_width, height=page_height, 
-                    units=page_units))
+                pageForGuides.setPageSize(selectedPageSizeName, QgsLayoutItemPage.Portrait)
             elif selectedPageOrientation == 'landscape': 
-                pageForGuides.setPageSize(QgsLayoutSize(width=page_height, height=page_width, 
-                    units=page_units))
+                pageForGuides.setPageSize(selectedPageSizeName, QgsLayoutItemPage.Landscape)
             else: 
                 pass
            
