@@ -219,7 +219,9 @@ class ModularGridBuilder:
         if result:
 
             selectedPageSize = self.dlg.paperSizeSelector.currentIndex()
-
+            # Copilot - initialise selection to prevent potential error if no buttons are selected
+            selectedPageOrientation = 'portrait'
+            
             if self.dlg.orientationPortraitRadio.isChecked(): 
                 selectedPageOrientation = 'portrait'
             elif self.dlg.orientationLandscapeRadio.isChecked():
@@ -242,8 +244,26 @@ class ModularGridBuilder:
             margin_top = self.dlg.marginTopInput.value()
             margin_bottom = self.dlg.marginBottomInput.value()
 
-            column_width = (page_width - margin_left - margin_right - (gutter * (num_columns - 1))) / num_columns
-            row_height = (page_height - margin_top - margin_bottom - (gutter * (num_rows - 1))) / num_rows
+            # Copilot: validate grid counts and available space
+            if num_columns < 1 or num_rows < 1:
+                self.iface.messageBar().pushMessage(
+                    self.tr("Invalid grid"),
+                    self.tr("Number of columns and rows must be at least 1."),
+                    level=qgis.core.Qgis.Critical)
+                return
+
+            available_width = page_width - margin_left - margin_right - (gutter * (num_columns - 1))
+            available_height = page_height - margin_top - margin_bottom - (gutter * (num_rows - 1))
+
+            if available_width <= 0 or available_height <= 0:
+                self.iface.messageBar().pushMessage(
+                    self.tr("Invalid layout"),
+                    self.tr("Margins and gutter leave no space for columns or rows."),
+                    level=qgis.core.Qgis.Critical)
+                return
+
+            column_width = available_width / num_columns
+            row_height = available_height / num_rows
 
             vertical_guides = list(range_alternate_steps(margin_left, (page_width - margin_right), (column_width, gutter)))
             vertical_guides.append(vertical_guides[-1]+column_width)
