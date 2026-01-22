@@ -266,12 +266,20 @@ class ModularGridBuilder:
             row_height = available_height / num_rows
 
             vertical_guides = list(range_alternate_steps(margin_left, (page_width - margin_right), (column_width, gutter)))
-            vertical_guides.append(vertical_guides[-1]+column_width)
+            # Copilot: protect against empty list index error
+            if vertical_guides:
+                vertical_guides.append(vertical_guides[-1] + column_width)
+            else:
+                vertical_guides = [margin_left + column_width]
 
             print(vertical_guides)
 
             horizontal_guides = list(range_alternate_steps(margin_top, (page_height - margin_bottom), (row_height, gutter)))
-            horizontal_guides.append(horizontal_guides[-1]+row_height)
+            
+            if horizontal_guides:
+                horizontal_guides.append(horizontal_guides[-1] + row_height)
+            else:
+                horizontal_guides = [margin_top + row_height]
 
             print(horizontal_guides)
 
