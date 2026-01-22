@@ -266,13 +266,15 @@ class ModularGridBuilder:
             row_height = available_height / num_rows
 
             vertical_guides = list(range_alternate_steps(margin_left, (page_width - margin_right), (column_width, gutter)))
+            
             # Copilot: protect against empty list index error
             if vertical_guides:
                 vertical_guides.append(vertical_guides[-1] + column_width)
             else:
                 vertical_guides = [margin_left + column_width]
 
-            print(vertical_guides)
+            QgsMessageLog.logMessage("Vertical guides: "+str(vertical_guides),
+                    level=core.Qgis.Info)
 
             horizontal_guides = list(range_alternate_steps(margin_top, (page_height - margin_bottom), (row_height, gutter)))
             
@@ -281,7 +283,8 @@ class ModularGridBuilder:
             else:
                 horizontal_guides = [margin_top + row_height]
 
-            print(horizontal_guides)
+            QgsMessageLog.logMessage("Horizontal guides: "+str(horizontal_guides),
+                    level=core.Qgis.Info)
 
             # identify current project
             project = QgsProject.instance()
