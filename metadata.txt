@@ -4,7 +4,7 @@
 name=Modular Layout Grid Guides
 qgisMinimumVersion=3.0
 description=This plugin creates a modular layout grid for print layouts
-version=0.1
+version=0.0.2
 author=Alexei Schwab
 email=qgismodulargrid@fastmail.com
 
